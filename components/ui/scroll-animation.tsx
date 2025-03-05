@@ -29,7 +29,7 @@ export function ScrollAnimation({
 }: ScrollAnimationProps) {
   const controls = useAnimation()
   const ref = useRef<HTMLDivElement>(null)
-  const [isInView, setIsInView] = useState(false)
+  const [, setIsInView] = useState(false)
 
   const defaultVariants = {
     hidden: { opacity: 0, y: 30 },

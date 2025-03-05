@@ -2,7 +2,7 @@
 
 import { useCallback } from "react"
 import Particles from "react-particles"
-import type { Container, Engine } from "tsparticles-engine"
+import type { Engine } from "tsparticles-engine"
 import { loadSlim } from "tsparticles-slim"
 
 interface ParticlesBackgroundProps {
@@ -14,9 +14,6 @@ export function ParticlesBackground({ className }: ParticlesBackgroundProps) {
     await loadSlim(engine)
   }, [])
 
-  const particlesLoaded = useCallback(async (container: Container | undefined) => {
-    // You can add custom code here when particles are loaded
-  }, [])
 
   return (
     <Particles
