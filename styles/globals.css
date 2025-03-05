@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 33% 98%;
+    --foreground: 30 10% 10%;
+
+    --card: 30 33% 98%;
+    --card-foreground: 30 10% 10%;
+
+    --popover: 30 33% 98%;
+    --popover-foreground: 30 10% 10%;
+
+    --primary: 30 95% 75%;
+    --primary-foreground: 30 10% 10%;
+
+    --secondary: 20 80% 85%;
+    --secondary-foreground: 30 10% 10%;
+
+    --muted: 30 20% 94%;
+    --muted-foreground: 30 10% 40%;
+
+    --accent: 40 100% 85%;
+    --accent-foreground: 30 10% 10%;
+
+    --destructive: 0 85% 65%;
+    --destructive-foreground: 30 33% 98%;
+
+    --border: 30 20% 90%;
+    --input: 30 20% 90%;
+    --ring: 30 95% 75%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 30 20% 10%;
+    --foreground: 30 33% 98%;
+
+    --card: 30 20% 10%;
+    --card-foreground: 30 33% 98%;
+
+    --popover: 30 20% 10%;
+    --popover-foreground: 30 33% 98%;
+
+    --primary: 30 95% 75%;
+    --primary-foreground: 30 10% 10%;
+
+    --secondary: 20 80% 25%;
+    --secondary-foreground: 30 33% 98%;
+
+    --muted: 30 20% 20%;
+    --muted-foreground: 30 33% 70%;
+
+    --accent: 40 100% 35%;
+    --accent-foreground: 30 33% 98%;
+
+    --destructive: 0 85% 45%;
+    --destructive-foreground: 30 33% 98%;
+
+    --border: 30 20% 25%;
+    --input: 30 20% 25%;
+    --ring: 30 95% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply scroll-smooth;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.floating-cloud {
+  animation: float 10s ease-in-out infinite;
+}
+
