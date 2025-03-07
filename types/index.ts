@@ -14,20 +14,26 @@ export interface IWork {
 }
 
 export interface IProject {
-    id:          number;
-    created_at:  Date;
-    title:       string;
+    id: number;
+    created_at: Date;
+    title: string;
     description: string;
-    tags:        string[];
-    githubLink:  string;
-    demoLink:    string;
-    image:       string;
+    tags: string[];
+    githubLink: string;
+    demoLink: string;
+    image: string;
 }
 
 export interface ISkill {
-    id:         number;
+    id: number;
     created_at: Date;
-    title:      string;
-    icon:       string;
-    skills:     string[];
+    title: string;
+    icon: string;
+    skills: string[];
+}
+
+export interface IMenu {
+    title: string
+    url: string
+    icon: string
 }

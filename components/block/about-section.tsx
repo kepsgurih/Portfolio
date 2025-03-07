@@ -2,28 +2,19 @@
 
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import ContainerCard from "../container"
+import HeaderDiv from "./header-div"
 
 export function AboutSection() {
   return (
-    <section id="about" className="py-16 md:py-24 bg-muted/50">
+    <ContainerCard>
       <div className="container mx-auto p-[2rem]">
-        <ScrollAnimation>
-          <div className="flex flex-col items-center text-center mb-12">
-            <Badge variant="outline" className="mb-4">
-              About Me
-            </Badge>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Who I Am</h2>
-            <p className="mt-4 max-w-[700px] text-muted-foreground md:text-xl">
-              Learn more about my journey, experience, and what drives me as a developer.
-            </p>
-          </div>
-        </ScrollAnimation>
+        <HeaderDiv tag="About Me" title="Who I Am" description="Learn more about my journey, experience, and what drives me as a developer." />
 
         <div className="grid gap-8 md:grid-cols-2">
           <ScrollAnimation
@@ -52,12 +43,12 @@ export function AboutSection() {
             }}
           >
             <div className="flex flex-col justify-center gap-4">
-              <h3 className="text-2xl font-bold">My Journey</h3>
-              <p className="text-muted-foreground">
+              <h3 className="text-2xl font-bold text-gray-100">My Journey</h3>
+              <p className="text-gray-400">
                 {`I'm a full-stack developer with over 8 years of experience building web applications and mobile apps. My journey began
                 when I discovered my passion for turning ideas into reality through code.`}
               </p>
-              <p className="text-muted-foreground">
+              <p className="text-gray-400">
                 {`I specialize in React, Next.js, Python, IoT and Node.js, and I'm constantly learning new technologies to stay at the
                 forefront of web development.`}
               </p>
@@ -93,7 +84,7 @@ export function AboutSection() {
                       },
                     }}
                   >
-                    <Card className="group hover:shadow-md transition-all duration-300">
+                    <Card className="group hover:shadow-xl transition-all duration-300 bg-slate-900">
                       <CardContent className="p-4 flex flex-col items-center text-center">
                         <motion.div
                           className="text-4xl font-bold text-primary"
@@ -144,6 +135,6 @@ export function AboutSection() {
           </ScrollAnimation>
         </div>
       </div>
-    </section>
+    </ContainerCard>
   )
 }

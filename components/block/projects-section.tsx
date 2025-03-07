@@ -11,6 +11,7 @@ import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { useEffect, useState } from "react"
 import { IProject } from "@/types"
 import { getAllProjectLimit3 } from "@/services/project"
+import HeaderDiv from "./header-div"
 
 
 export function ProjectsSection() {
@@ -36,19 +37,9 @@ export function ProjectsSection() {
   }
 
   return (
-    <section id="projects" className="py-16 md:py-24 bg-gradient-to-br from-background via-secondary/20 to-background">
+    <section className="py-16 md:py-24">
       <div className="container mx-auto p-[2rem]">
-        <ScrollAnimation>
-          <div className="flex flex-col items-center text-center mb-12">
-            <Badge variant="outline" className="mb-4">
-              My Work
-            </Badge>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Featured Projects</h2>
-            <p className="mt-4 max-w-[700px] text-muted-foreground md:text-xl">
-              A selection of my recent work and personal projects.
-            </p>
-          </div>
-        </ScrollAnimation>
+        <HeaderDiv title="Featured Projects" description="A selection of my recent work and personal projects." tag="My Work" />
 
         <motion.div
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
@@ -69,7 +60,7 @@ export function ProjectsSection() {
                 },
               }}
             >
-              <Card className="overflow-hidden h-full group">
+              <Card className="overflow-hidden h-full group bg-slate-800">
                 <div className="aspect-video overflow-hidden">
                   <motion.img
                     src={project.image || "/placeholder.svg"}
@@ -80,8 +71,8 @@ export function ProjectsSection() {
                   />
                 </div>
                 <CardHeader>
-                  <CardTitle>{project.title}</CardTitle>
-                  <CardDescription>{project.description}</CardDescription>
+                  <CardTitle className="text-primary">{project.title}</CardTitle>
+                  <CardDescription className="text-secondary">{project.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2">

@@ -27,13 +27,18 @@ export function Navbar() {
         <Link href="/" className="font-bold text-xl">
           Portfolio
         </Link>
-        <nav className="hidden md:flex items-center gap-6">
-       
-          <Link href="/project" className="text-sm font-medium hover:text-primary transition-colors">
+        <nav className="hidden md:flex items-center gap-6 text-gray-200">
+          <Link href="/project" className="relative text-sm font-medium hover:text-primary transition-colors group">
             Projects
+            <div className="bg-red-500 inset-0 z-[-1] w-full h-full rounded-full absolute blur opacity-0 transition-opacity group-hover:opacity-100  duration-200">
+
+            </div>
           </Link>
-          <Link href="/work" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link href="/work" className="relative text-sm font-medium hover:text-primary transition-colors group">
             Work
+            <div className="bg-red-500 inset-0 z-[-1] w-full h-full rounded-full absolute blur opacity-0 transition-opacity group-hover:opacity-100  duration-200">
+
+            </div>
           </Link>
           <Button asChild>
             <Link href="#contact">Hire Me</Link>
@@ -48,11 +53,11 @@ export function Navbar() {
           </SheetTrigger>
           <SheetContent side="right">
             <div className="flex flex-col gap-6 mt-10 mx-4">
-             
+
               <Link href="/project" className="text-lg font-medium hover:text-primary transition-colors">
                 Projects
               </Link>
-            
+
               <Link href="/work" className="text-lg font-medium hover:text-primary transition-colors">
                 Work
               </Link>

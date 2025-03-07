@@ -4,10 +4,11 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { DynamicIcon, IconName } from "lucide-react/dynamic";
 import { motion } from "framer-motion"
-import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { useEffect, useState } from "react"
 import { getAllSkills } from "@/services/skills"
 import { ISkill } from "@/types";
+import ContainerCard from "../container";
+import HeaderDiv from "./header-div";
 
 export function SkillsSection() {
   const [skill, setSkills] = useState<ISkill[]>([])
@@ -40,19 +41,9 @@ export function SkillsSection() {
   }
 
   return (
-    <section id="skills" className="py-16 md:py-24 bg-muted/50 relative overflow-hidden">
+    <ContainerCard>
       <div className="container mx-auto p-[2rem] relative z-10">
-        <ScrollAnimation>
-          <div className="flex flex-col items-center text-center mb-12">
-            <Badge variant="outline" className="mb-4">
-              My Skills
-            </Badge>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Technical Expertise</h2>
-            <p className="mt-4 max-w-[700px] text-muted-foreground md:text-xl">
-              A comprehensive overview of my technical skills and competencies.
-            </p>
-          </div>
-        </ScrollAnimation>
+        <HeaderDiv tag="My Skills" title="Technical Expertise" description={`A comprehensive overview of my technical skills and competencies.`} />
 
         <motion.div
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
@@ -62,7 +53,7 @@ export function SkillsSection() {
         >
           {skill.map((category, index) => (
             <motion.div key={index} variants={itemVariants}>
-              <Card className="h-full hover:shadow-lg transition-shadow duration-300">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-300 bg-slate-800">
                 <CardContent className="p-6">
                   <motion.div
                     className="mb-4 flex items-center gap-2"
@@ -73,9 +64,9 @@ export function SkillsSection() {
                   >
                     <motion.div whileHover={{ rotate: 15 }} transition={{ type: "spring", stiffness: 300 }}>
                       {/* {typeof category.icon === "string" && Object.hasOwn(icons, category.icon) && ( */}
-                        <DynamicIcon name={category.icon as IconName} />
+                        <DynamicIcon name={category.icon as IconName} className="text-primary" />
                     </motion.div>
-                    <h3 className="text-xl font-bold">{category.title}</h3>
+                    <h3 className="text-xl font-bold text-primary">{category.title}</h3>
                   </motion.div>
                   <motion.div
                     className="flex flex-wrap gap-2"
@@ -102,7 +93,7 @@ export function SkillsSection() {
                         }}
                         whileHover={{ scale: 1.1 }}
                       >
-                        <Badge variant="secondary">{skill}</Badge>
+                        <Badge variant="secondary" className="bg-slate-900 text-slate-200">{skill}</Badge>
                       </motion.div>
                     ))}
                   </motion.div>
@@ -112,33 +103,7 @@ export function SkillsSection() {
           ))}
         </motion.div>
       </div>
-
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-primary/5"
-            style={{
-              width: Math.random() * 100 + 50,
-              height: Math.random() * 100 + 50,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [Math.random() * 100, Math.random() * -100],
-              x: [Math.random() * 100, Math.random() * -100],
-              scale: [1, Math.random() + 0.5, 1],
-            }}
-            transition={{
-              duration: Math.random() * 20 + 10,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-            }}
-          />
-        ))}
-      </div>
-    </section>
+    </ContainerCard>
   )
 }
 

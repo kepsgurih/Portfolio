@@ -5,25 +5,22 @@ import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
-import { Navbar } from "@/components/navbar"
-import { ParticlesBackground } from "@/components/ui/particles-background"
+// import { ParticlesBackground } from "@/components/ui/particles-background"
 import Image from "next/image"
 
 export function HeroSection() {
   return (
-    <div className="justify-center align-center items-center relative min-h-screen flex flex-col overflow-hidden bg-gradient-to-br from-secondary/30 via-background to-accent/30">
-      <Navbar />
-      <ParticlesBackground className="opacity-30" />
+   <>
       <div className="flex-1 flex items-center">
         <div className="container mx-auto p-[2rem] grid gap-8 py-12 md:grid-cols-2 md:py-24">
           <motion.div
-            className="order-last md:order-first flex flex-col justify-center gap-4"
+            className="order-last md:order-first flex flex-col justify-center gap-4 md:text-left text-center"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <motion.h1
-              className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl"
+              className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-muted-foreground"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -87,7 +84,7 @@ export function HeroSection() {
               transition={{ duration: 0.3 }}
             >
               <motion.div
-                className="absolute inset-0"
+                className="flex items-center justify-center"
                 transition={{
                   duration: 5,
                   repeat: Number.POSITIVE_INFINITY,
@@ -107,7 +104,7 @@ export function HeroSection() {
         </div>
       </div>
       <motion.div
-        className="absolute bottom-4 left-1/2 -translate-x-1/2"
+        className="mb-4 flex items-center justify-center"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
@@ -122,7 +119,7 @@ export function HeroSection() {
           <div className="h-8 w-0.5 animate-pulse bg-primary"></div>
         </div>
       </motion.div>
-    </div>
+   </>
   )
 }
 

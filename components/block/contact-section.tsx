@@ -2,8 +2,6 @@
 
 import { Mail, MapPin, Phone } from "lucide-react"
 import { motion } from "framer-motion"
-
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -11,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import Link from "next/link"
 import { useState } from "react"
+import HeaderDiv from "./header-div"
 
 export function ContactSection() {
   const [subject, setSubject] = useState('')
@@ -37,17 +36,7 @@ export function ContactSection() {
   return (
     <section id="contact" className="py-16 md:py-24 relative overflow-hidden">
       <div className="container mx-auto p-[2rem] relative z-10">
-        <ScrollAnimation>
-          <div className="flex flex-col items-center text-center mb-12">
-            <Badge variant="outline" className="mb-4">
-              Get In Touch
-            </Badge>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Contact Me</h2>
-            <p className="mt-4 max-w-[700px] text-muted-foreground md:text-xl">
-              {`Have a project in mind or want to discuss a potential collaboration? I'd love to hear from you.`}
-            </p>
-          </div>
-        </ScrollAnimation>
+        <HeaderDiv tag="Get In Touch" title="Contact Me" description={`Have a project in mind or want to discuss a potential collaboration? I'd love to hear from you.`} />
 
         <div className="grid gap-8 md:grid-cols-2">
           <ScrollAnimation
@@ -79,8 +68,8 @@ export function ContactSection() {
                 <motion.div variants={formItemVariants}>
                   <Link href={`mailto:useyor@gmail.com?subject${subject}&body=${message}`} rel="noopener noreferrer" target="_blank" className="relative overflow-hidden group bg-primary p-4 mt-10" >
                     {/* <Button onClick={(e) => e.defaultPrevented()} size="lg" className=""> */}
-                      <span className="relative z-10">Send Message</span>
-                      {/* <span className="absolute inset-0 bg-primary/80 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span> */}
+                    <span className="relative z-10">Send Message</span>
+                    {/* <span className="absolute inset-0 bg-primary/80 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span> */}
                     {/* </Button> */}
                   </Link>
                 </motion.div>
