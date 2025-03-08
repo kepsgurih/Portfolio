@@ -23,7 +23,7 @@ export default function RootLayout({
         <div className={"absolute inset-0 pointer-events-none z-0 "}>
           {[...Array(20)].map((_, i) => {
             const size = Math.random() * 150 + 100;
-            const colors = ['bg-red-500/50', 'bg-blue-500/20', 'bg-green-500/10', 'bg-yellow-500/10', 'bg-purple-500/10'];
+            const colors = ['bg-gradient-to-r from-rose-400/20 to-red-500/20', 'bg-gradient-to-r from-violet-200/20 to-pink-200/20', 'bg-gradient-to-r from-indigo-500/20 to-blue-500/20', 'bg-gradient-to-r from-fuchsia-500/20 to-cyan-500/20', 'bg-gradient-to-r from-slate-500/20 to-slate-800/20'];
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
             return (
               <motion.div
@@ -51,9 +51,8 @@ export default function RootLayout({
           })}
 
         </div>
-
-      </div>
       <Footer />
+      </div>
     </div>
   )
 }

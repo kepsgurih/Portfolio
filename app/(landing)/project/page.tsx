@@ -1,16 +1,16 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowLeft, ExternalLink, Github } from "lucide-react"
+import { ExternalLink, Github } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { useEffect, useState } from "react"
 import { getAllProject } from "@/services/project"
 import { IProject } from "@/types"
+import HeaderDiv from "@/components/block/header-div"
 
 export default function ProjectsPage() {
     const [projectData, setProjectData] = useState<IProject[]>([])
@@ -36,25 +36,8 @@ export default function ProjectsPage() {
     }
 
     return (
-        <div className="min-h-screen container mx-auto">
-            <ScrollAnimation>
-                <div className="flex flex-col items-center text-center mb-12">
-                    <Badge variant="outline" className="mb-4">
-                        My Portfolio
-                    </Badge>
-                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">All Projects</h1>
-                    <p className="mt-4 max-w-[700px] text-muted-foreground md:text-xl">
-                        A comprehensive showcase of my work across various technologies and domains.
-                    </p>
-                    <Button variant="outline" className="mt-6" asChild>
-                        <Link href="/#projects" className="flex items-center gap-2">
-                            <ArrowLeft className="h-4 w-4" />
-                            Back to Home
-                        </Link>
-                    </Button>
-                </div>
-            </ScrollAnimation>
-
+        <div className="container mx-auto">
+            <HeaderDiv title="All Projects" description=" A comprehensive showcase of my work across various technologies and domains." tag="Projects" />
             <motion.div
                 className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
                 variants={containerVariants}

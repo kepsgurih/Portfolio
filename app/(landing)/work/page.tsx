@@ -1,16 +1,15 @@
 "use client"
 
-import Link from "next/link"
-import { ArrowLeft, Calendar, MapPin } from "lucide-react"
+import { Calendar, MapPin } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { useEffect, useState } from "react"
 import { getAllWork } from "@/services/work"
 import { IWork } from "@/types"
+import HeaderDiv from "@/components/block/header-div"
 
 
 
@@ -28,23 +27,7 @@ export default function WorkPage() {
 
   return (
     <div className="min-h-screen">
-      <ScrollAnimation>
-        <div className="flex flex-col items-center text-center mb-12">
-          <Badge variant="outline" className="mb-4 text-primary">
-            My Experience
-          </Badge>
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-primary">Work History</h1>
-          <p className="mt-4 max-w-[700px] text-secondary md:text-xl">
-            A detailed overview of my professional journey and accomplishments.
-          </p>
-          <Button variant="outline" className="mt-6" asChild>
-            <Link href="/" className="flex items-center gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Back to Home
-            </Link>
-          </Button>
-        </div>
-      </ScrollAnimation>
+      <HeaderDiv title="Work Experience" description="A selection of my recent work and personal projects." tag="My Work" />
 
       <div className="z-10 mt-12 flex flex-col gap-8">
         {workExperience.map((job, index) => (
@@ -103,7 +86,7 @@ export default function WorkPage() {
           </ScrollAnimation>
         ))}
       </div>
-     
+
     </div>
   )
 }
