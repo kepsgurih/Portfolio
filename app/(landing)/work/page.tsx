@@ -66,7 +66,7 @@ export default function WorkPage() {
                   <CardContent>
                     <p className=" mb-4 text-sm sm:text-base">{job.description}</p>
                     <div className="flex flex-wrap gap-2 mb-4">
-                      {job.technologies.map((tech, techIndex) => (
+                      {job.tags.map((tech, techIndex) => (
                         <Badge key={techIndex} variant="secondary" className="text-xs sm:text-sm">
                           {tech}
                         </Badge>
@@ -75,7 +75,7 @@ export default function WorkPage() {
                     <div className="space-y-2">
                       <h4 className="font-semibold text-sm sm:text-base ">Key Achievements:</h4>
                       <ul className="space-y-1 list-disc pl-4 sm:pl-5 text-xs sm:text-sm">
-                        {job.achievements.map((achievement, achievementIndex) => (
+                        {job.achievement.map((achievement, achievementIndex) => (
                           <li key={achievementIndex} className="">
                             {achievement}
                           </li>

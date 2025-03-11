@@ -87,22 +87,26 @@ export function EditWorkSheet({
 
   const swapPosition = async (direction: "up" | "down") => {
     try {
-        const newPos = direction === "up" ? pos - 1 : pos + 1
+      const newPos = direction === "up" ? pos - 1 : pos + 1
 
-        const response = await fetch(`/api/work/swap`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: work.id, pos, newPos }),
-        })
+      const response = await fetch(`/api/work/swap`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: work.id, pos, newPos }),
+      })
 
-        if (!response.ok) throw new Error("Gagal mengubah posisi")
+      if (!response.ok) throw new Error("Gagal mengubah posisi")
 
-        toast.success(`Posisi berhasil diubah`)
-        queryClient.invalidateQueries({ queryKey: ['works'] })
+      toast.success(`Posisi berhasil diubah`)
+      queryClient.invalidateQueries({ queryKey: ['works'] })
     } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      } else {
         toast.error("Gagal mengubah posisi")
+      }
     }
-}
+  }
 
 
   return (
