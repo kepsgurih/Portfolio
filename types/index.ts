@@ -1,16 +1,27 @@
 
 
 export interface IWork {
-    id: number;
-    created_at: Date;
-    title: string;
+    id?: string;
+    created_at?: Date;
+    title:string;
+    period:string;
     company: string;
     location: string;
-    period: string;
     description: string;
-    technologies: string[];
-    achievements: string[];
-    pos: number;
+    tags: string[];
+    achievement: string[];
+    pos: number
+}
+export interface IWorkInput {
+    id?: string;
+    created_at?: Date;
+    title:string;
+    period:string;
+    company: string;
+    location: string;
+    description: string;
+    tags: string[];
+    achievement: string[];
 }
 
 export interface IProject {
@@ -25,11 +36,17 @@ export interface IProject {
 }
 
 export interface ISkill {
-    id: number;
+    id: string;
     created_at: Date;
     title: string;
     icon: string;
-    skills: string[];
+    tags: string[];
+}
+export interface ISkillInput {
+    id?: string;
+    title: string;
+    icon: string;
+    tags: string[];
 }
 
 export interface IMenu {

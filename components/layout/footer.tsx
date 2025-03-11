@@ -8,13 +8,13 @@ export function Footer() {
           © {new Date().getFullYear()} Kevin Adhi Krisma. All rights reserved.
         </p>
         <nav className="flex gap-4 text-sm text-muted-foreground">
-          <Link href="#" className="hover:text-primary transition-colors">
+          <Link href="#" className="hover: transition-colors">
             Privacy Policy
           </Link>
-          <Link href="#" className="hover:text-primary transition-colors">
+          <Link href="#" className="hover: transition-colors">
             Terms of Service
           </Link>
-          <Link href="#" className="hover:text-primary transition-colors">
+          <Link href="#" className="hover: transition-colors">
             Sitemap
           </Link>
         </nav>

@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
 
   return (
-    <div className="min-h-screen w-screen bg-slate-900 justify-center align-center">
+    <div className="min-h-screen w-screen justify-center align-center">
       <div className="relative justify-center align-center items-center relative min-h-screen flex flex-col overflow-hidden">
         <Navbar />
         <div className="z-10 relative">

@@ -101,10 +101,10 @@ export function ContactSection() {
                 viewport={{ once: true }}
               >
                 {[
-                  { icon: <Mail className="h-6 w-6 text-primary" />, title: "Email", content: "useyor@gmail.com" },
-                  { icon: <Phone className="h-6 w-6 text-primary" />, title: "Phone", content: "+62 851 7333 7559" },
+                  { icon: <Mail className="h-6 w-6 " />, title: "Email", content: "useyor@gmail.com" },
+                  { icon: <Phone className="h-6 w-6 " />, title: "Phone", content: "+62 851 7333 7559" },
                   {
-                    icon: <MapPin className="h-6 w-6 text-primary" />,
+                    icon: <MapPin className="h-6 w-6 " />,
                     title: "Location",
                     content: "Bekasi, Jawa Barat, Indonesia",
                   },
@@ -134,7 +134,7 @@ export function ContactSection() {
                         </motion.div>
                         <div>
                           <h4 className="text-lg font-semibold">{item.title}</h4>
-                          <p className="text-muted-foreground group-hover:text-primary transition-colors duration-300">
+                          <p className="text-muted-foreground group-hover: transition-colors duration-300">
                             {item.content}
                           </p>
                         </div>
@@ -230,7 +230,7 @@ export function ContactSection() {
       </div>
 
       {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+      {/* <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
         {[...Array(10)].map((_, i) => (
           <motion.div
             key={i}
@@ -253,7 +253,7 @@ export function ContactSection() {
             }}
           />
         ))}
-      </div>
+      </div> */}
     </section>
   )
 }

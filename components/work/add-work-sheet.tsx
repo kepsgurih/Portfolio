@@ -10,41 +10,67 @@ import { Textarea } from "@/components/ui/textarea"
 import { useState } from "react"
 import { TagInput } from "../ui/tag-input"
 import { toast } from "sonner"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { IWorkInput as IWork } from "@/types"
 
 export function AddWorkSheet({ children }: { children: React.ReactNode }) {
+  const queryClient = useQueryClient()
+  const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const [company, setCompany] = useState("")
+  const [title, setTitle] = useState("")
+  const [period, setPeriod] = useState("")
   const [location, setLocation] = useState("")
   const [description, setDescription] = useState("")
-  const [position, setPosition] = useState("")
   const [tags, setTags] = useState<string[]>([])
   const [achievements, setAchievements] = useState<string[]>([])
 
+  const mutation = useMutation({
+    mutationFn: (data: IWork) => {
+      return fetch("/api/work", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+    },
+    onMutate() {
+      setLoading(true)
+    },
+    onError(error) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      }
+    },
+    onSuccess: () => {
+      toast.success("Work added successfully")
+      queryClient.invalidateQueries({ queryKey: ['works'] })
+    },
+    onSettled: () => {
+      setCompany("")
+      setLocation("")
+      setDescription("")
+      setTags([])
+      setAchievements([])
+      setOpen(false)
+      setLoading(false)
+    }
+  })
+
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    // Here you would typically save to your database
-    console.log({
+    const data = {
       company,
+      title,
+      period,
       location,
       description,
-      pos: Number.parseInt(position),
       tags,
-      achievement: achievements,
-    })
-
-    toast("Work experience added", {
-      description: `${company} has been added to your work experience.`,
-    })
-
-    // Reset form and close sheet
-    setCompany("")
-    setLocation("")
-    setDescription("")
-    setPosition("")
-    setTags([])
-    setAchievements([])
-    setOpen(false)
+      achievement: achievements
+    }
+    mutation.mutate(data)
   }
 
   return (
@@ -58,16 +84,26 @@ export function AddWorkSheet({ children }: { children: React.ReactNode }) {
         <form onSubmit={handleSubmit} className="space-y-6 py-6">
           <div className="space-y-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="position" className="text-right">
+              <Label htmlFor="title" className="text-right">
                 Position
               </Label>
               <Input
-                id="position"
-                type="number"
-                value={position}
-                onChange={(e) => setPosition(e.target.value)}
+                id="title"
+                onChange={(e) => setTitle(e.target.value)}
                 className="col-span-3"
-                placeholder="1"
+                placeholder="Full Stack Developer"
+                required
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="period" className="text-right">
+                Period
+              </Label>
+              <Input
+                id="period"
+                onChange={(e) => setPeriod(e.target.value)}
+                className="col-span-3"
+                placeholder="2022 - Present"
                 required
               />
             </div>
@@ -133,10 +169,10 @@ export function AddWorkSheet({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           <div className="flex justify-end space-x-2">
-            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+            <Button disabled={loading} type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button type="submit">Save</Button>
+            <Button disabled={loading} type="submit">{loading ? "Saving..." : "Save"}</Button>
           </div>
         </form>
       </SheetContent>

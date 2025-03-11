@@ -17,8 +17,8 @@ import pkg from '@/package.json'
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
         <Sidebar {...props}>
-            <SidebarHeader className="bg-slate-800 text-slate-50">
-                <SidebarMenu className="bg-slate-800 text-slate-50">
+            <SidebarHeader className=" ">
+                <SidebarMenu className=" ">
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <a href="#">
@@ -34,7 +34,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
-            <SidebarContent className="bg-slate-800 text-slate-50">
+            <SidebarContent className=" ">
                 <NavMain items={MenuConstant} />
             </SidebarContent>
             <SidebarRail />

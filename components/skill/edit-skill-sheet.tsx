@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label"
 import { useState, useEffect } from "react"
 import { TagInput } from "@/components/ui/tag-input"
 import { toast } from "sonner"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { ISkillInput } from "@/types"
 
 
 interface SkillData {
@@ -25,11 +27,30 @@ export function EditSkillSheet({
   children: React.ReactNode
   skill: SkillData
 }) {
+  const queryClient = useQueryClient()
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState(skill.title)
   const [icon, setIcon] = useState(skill.icon)
   const [tags, setTags] = useState<string[]>(skill.tags)
 
+  const { mutate: updateSkill } = useMutation({
+    mutationFn: ({ id, title, icon, tags }: ISkillInput) => {
+      return fetch("/api/skill/" + id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, icon, tags }),
+      })
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: ['skills'] })
+      toast.success("Skill updated successfully")
+    },
+    onSettled: () => {
+      setOpen(false)
+    },
+  })
   // Update form when skill prop changes
   useEffect(() => {
     setTitle(skill.title)
@@ -39,20 +60,7 @@ export function EditSkillSheet({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    // Here you would typically update your database
-    console.log({
-      id: skill.id,
-      title,
-      icon,
-      tags,
-    })
-
-    toast('Skill updated', {
-      description: `${title} has been updated.`,
-    })
-
-    setOpen(false)
+    updateSkill({ id: skill.id, title, icon, tags })
   }
 
   return (

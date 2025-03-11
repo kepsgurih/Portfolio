@@ -17,43 +17,43 @@ export default function Home() {
         <div className="space-y-6 p-4 md:p-10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-primary">Dashboard</h1>
-                    <p className="text-secondary">Manage your portfolio data from here.</p>
+                    <h1 className="text-3xl font-bold tracking-tight ">Dashboard</h1>
+                    <p className="">Manage your portfolio data from here.</p>
                 </div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="bg-slate-800 text-slate-200">
+                <Card className=" ">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium text-white">Years Experience</CardTitle>
-                        <Briefcase className="h-4 w-4 text-secondary" />
+                        <Briefcase className="h-4 w-4 " />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.yearsExperience}</div>
                     </CardContent>
                 </Card>
-                <Card className="bg-slate-800 text-slate-200">
+                <Card className=" ">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium text-white">Projects Completed</CardTitle>
-                        <FileCheck className="h-4 w-4 text-secondary" />
+                        <FileCheck className="h-4 w-4 " />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.projectCompleted}</div>
                     </CardContent>
                 </Card>
-                <Card className="bg-slate-800 text-slate-200">
+                <Card className=" ">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium text-white">Happy Clients</CardTitle>
-                        <Users className="h-4 w-4 text-secondary" />
+                        <Users className="h-4 w-4 " />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.happyClient}</div>
                     </CardContent>
                 </Card>
-                <Card className="bg-slate-800 text-slate-200">
+                <Card className=" ">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium text-white">Technologies</CardTitle>
-                        <Laptop className="h-4 w-4 text-secondary" />
+                        <Laptop className="h-4 w-4 " />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{stats.technologies}</div>
@@ -62,10 +62,10 @@ export default function Home() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                <Card className="bg-slate-800 text-slate-200">
+                <Card className=" ">
                     <CardHeader>
                         <CardTitle>Work Experience</CardTitle>
-                        <CardDescription className="text-slate-300">Manage your work experience entries</CardDescription>
+                        <CardDescription className="">Manage your work experience entries</CardDescription>
                     </CardHeader>
                     <CardContent className="flex justify-end">
                         <Button asChild>
@@ -76,10 +76,10 @@ export default function Home() {
                         </Button>
                     </CardContent>
                 </Card>
-                <Card className="bg-slate-800 text-slate-200">
+                <Card className=" ">
                     <CardHeader>
                         <CardTitle>Skills</CardTitle>
-                        <CardDescription className="text-slate-300">Manage your skills and technologies</CardDescription>
+                        <CardDescription className="">Manage your skills and technologies</CardDescription>
                     </CardHeader>
                     <CardContent className="flex justify-end">
                         <Button asChild>
@@ -90,10 +90,10 @@ export default function Home() {
                         </Button>
                     </CardContent>
                 </Card>
-                <Card className="bg-slate-800 text-slate-200">
+                <Card className=" ">
                     <CardHeader>
                         <CardTitle>Configuration</CardTitle>
-                        <CardDescription className="text-slate-300">Update your portfolio configuration</CardDescription>
+                        <CardDescription className="">Update your portfolio configuration</CardDescription>
                     </CardHeader>
                     <CardContent className="flex justify-end">
                         <Button asChild>

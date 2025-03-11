@@ -56,18 +56,18 @@ export default function ProjectsPage() {
                             },
                         }}
                     >
-                        <Card className="overflow-hidden h-full group bg-white border-purple-200">
+                        <Card className="mx-4 md:mx-0 overflow-hidden h-full group border-purple-200">
                             <div className="aspect-video overflow-hidden">
                                 <motion.img
                                     src={project.image || "/placeholder.svg"}
                                     alt={project.title}
-                                    className="h-full w-full object-cover"
+                                    className="h-full w-full object-cover "
                                     whileHover={{ scale: 1.1 }}
                                     transition={{ duration: 0.5 }}
                                 />
                             </div>
                             <CardHeader>
-                                <CardTitle>{project.title}</CardTitle>
+                                <CardTitle className="">{project.title}</CardTitle>
                                 <CardDescription>{project.description}</CardDescription>
                             </CardHeader>
                             <CardContent>

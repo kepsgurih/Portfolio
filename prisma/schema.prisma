@@ -32,6 +32,8 @@ model Project {
 
 model Work {
   id          String @id @default(cuid())
+  title       String
+  period      String
   company     String
   location    String
   description String

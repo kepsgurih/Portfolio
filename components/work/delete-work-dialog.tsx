@@ -10,19 +10,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-
-interface WorkData {
-  id: string
-  company: string
-  location: string
-  description: string
-  tags: string[]
-  achievement: string[]
-  pos: number
-}
+import { IWork } from "@/types"
 
 interface DeleteWorkDialogProps {
-  work: WorkData
+  work: IWork
   open: boolean
   onOpenChange: (open: boolean) => void
   onDelete: () => void

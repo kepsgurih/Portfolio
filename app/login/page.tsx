@@ -22,7 +22,7 @@ interface LoginResponse {
 }
 
 const loginSchema = z.object({
-    email: z.string().email(),
+    email: z.string().email('Email tidak valid'),
     password: z.string().min(1),
 });
 
@@ -67,16 +67,16 @@ export default function LoginPage() {
 
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100">
-            <Card className="w-[400px]">
+        <div className="flex min-h-screen items-center justify-center ">
+            <Card className="w-[400px] ">
                 <CardHeader>
-                    <CardTitle>Login</CardTitle>
+                    <CardTitle className="">Login</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="">
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         {error && <p className="text-red-500">{error}</p>}
-                        <Input placeholder="Email" {...register("email")} />
-                        <Input placeholder="Password" type="password" {...register("password")} />
+                        <Input type="email" required className="" placeholder="Email" {...register("email")} />
+                        <Input className="" placeholder="Password" type="password" {...register("password")} />
                         <Button disabled={loading} type="submit" className="w-full">{loading ? "Loading..." : "Login"}</Button>
                     </form>
                 </CardContent>

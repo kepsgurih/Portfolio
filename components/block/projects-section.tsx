@@ -60,7 +60,7 @@ export function ProjectsSection() {
                 },
               }}
             >
-              <Card className="overflow-hidden h-full group bg-slate-800">
+              <Card className="overflow-hidden h-full group ">
                 <div className="aspect-video overflow-hidden">
                   <motion.img
                     src={project.image || "/placeholder.svg"}
@@ -71,8 +71,8 @@ export function ProjectsSection() {
                   />
                 </div>
                 <CardHeader>
-                  <CardTitle className="text-primary">{project.title}</CardTitle>
-                  <CardDescription className="text-secondary">{project.description}</CardDescription>
+                  <CardTitle className="">{project.title}</CardTitle>
+                  <CardDescription className="">{project.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2">

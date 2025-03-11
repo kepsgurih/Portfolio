@@ -7,38 +7,51 @@ import { Badge } from "@/components/ui/badge"
 import { EditSkillSheet } from "./edit-skill-sheet"
 import { useState } from "react"
 import { DeleteSkillDialog } from "./delete-skill-dialog"
-
-// This would come from your database in a real app
-const mockSkillData = [
-  {
-    id: "1",
-    title: "React",
-    icon: "react",
-    tags: ["Frontend", "JavaScript", "UI"],
-  },
-  {
-    id: "2",
-    title: "Node.js",
-    icon: "nodejs",
-    tags: ["Backend", "JavaScript", "Server"],
-  },
-  {
-    id: "3",
-    title: "TypeScript",
-    icon: "typescript",
-    tags: ["Frontend", "Backend", "JavaScript"],
-  },
-]
+import { ISkill } from "@/types"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 export function SkillTable() {
-  const [skillData, setSkillData] = useState(mockSkillData)
-  const [selectedSkill, setSelectedSkill] = useState<(typeof mockSkillData)[0] | null>(null)
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const queryClient = useQueryClient()
+  const [selectedSkill, setSelectedSkill] = useState<ISkill | null>(null)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false)
+  const [page, setPage] = useState(1)
+  const limit = 10
+
+  const { data: skillData, error, isPending } = useQuery({
+    queryKey: ['skills', page, limit],
+    queryFn: () =>
+      fetch(`/api/skill?page=${page}&limit=${limit}`)
+        .then(res => res.json())
+        .then(data => data),
+  })
+
+  
+  const maxPage = skillData?.totalPage || 1;
+
+
+  const { mutate: deleteSkill, isPending: isDeleting } = useMutation({
+    mutationFn: (id: string) => {
+      return fetch("/api/skill/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+    },
+    onSuccess: () => {
+      toast.success("Skill removed successfully")
+      queryClient.invalidateQueries({ queryKey: ['skills', page, limit] })
+    },
+  })
 
   const handleDelete = (id: string) => {
-    setSkillData(skillData.filter((skill) => skill.id !== id))
+    deleteSkill(id)
     setDeleteDialogOpen(false)
   }
+
+  // Fetch skill data dengan pagination
+
 
   return (
     <div className="rounded-md border">
@@ -52,14 +65,26 @@ export function SkillTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {skillData.length === 0 ? (
+          {error ? (
+            <TableRow>
+              <TableCell colSpan={4} className="h-24 text-center">
+                {error.message}
+              </TableCell>
+            </TableRow>
+          ) : isPending || isDeleting ? (
+            <TableRow>
+              <TableCell colSpan={4} className="h-24 text-center">
+                Loading...
+              </TableCell>
+            </TableRow>
+          ) : !skillData?.allSkill || skillData.allSkill.length === 0 ? (
             <TableRow>
               <TableCell colSpan={4} className="h-24 text-center">
                 No skills found.
               </TableCell>
             </TableRow>
           ) : (
-            skillData.map((skill) => (
+            skillData.allSkill.map((skill: ISkill) => (
               <TableRow key={skill.id}>
                 <TableCell className="font-medium">{skill.title}</TableCell>
                 <TableCell>{skill.icon}</TableCell>
@@ -70,7 +95,9 @@ export function SkillTable() {
                         {tag}
                       </Badge>
                     ))}
-                    {skill.tags.length > 2 && <Badge variant="outline">+{skill.tags.length - 2}</Badge>}
+                    {skill.tags.length > 2 && (
+                      <Badge variant="outline">+{skill.tags.length - 2}</Badge>
+                    )}
                   </div>
                 </TableCell>
                 <TableCell className="text-right">
@@ -85,8 +112,8 @@ export function SkillTable() {
                       variant="ghost"
                       size="icon"
                       onClick={() => {
-                        setSelectedSkill(skill)
-                        setDeleteDialogOpen(true)
+                        setSelectedSkill(skill);
+                        setDeleteDialogOpen(true);
                       }}
                     >
                       <Trash className="h-4 w-4" />
@@ -99,6 +126,27 @@ export function SkillTable() {
           )}
         </TableBody>
       </Table>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-between p-4">
+        <Button
+          variant="outline"
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+        >
+          Previous
+        </Button>
+        <span className="text-sm">Page {page}</span>
+        <Button
+          variant="outline"
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={page >= maxPage} // Pastikan tidak melebihi halaman terakhir
+        >
+          Next
+        </Button>
+
+      </div>
+
       {selectedSkill && (
         <DeleteSkillDialog
           skill={selectedSkill}
@@ -110,4 +158,3 @@ export function SkillTable() {
     </div>
   )
 }
-

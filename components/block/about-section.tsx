@@ -84,10 +84,10 @@ export function AboutSection() {
                       },
                     }}
                   >
-                    <Card className="group hover:shadow-xl transition-all duration-300 bg-slate-900">
+                    <Card className="group hover:shadow-xl transition-all duration-300 ">
                       <CardContent className="p-4 flex flex-col items-center text-center">
                         <motion.div
-                          className="text-4xl font-bold text-primary"
+                          className="text-4xl font-bold "
                           initial={{ scale: 0.5, opacity: 0 }}
                           whileInView={{ scale: 1, opacity: 1 }}
                           transition={{
@@ -109,7 +109,7 @@ export function AboutSection() {
                             {item.value}
                           </motion.span>
                         </motion.div>
-                        <p className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-300">
+                        <p className="text-sm text-muted-foreground group-hover: transition-colors duration-300">
                           {item.label}
                         </p>
                       </CardContent>

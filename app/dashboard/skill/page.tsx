@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Plus } from "lucide-react"
 import { SkillTable } from "@/components/skill/skill-table"
 import { AddSkillSheet } from "@/components/skill/add-skill-sheet"
+import { Suspense } from "react"
 
 export default function SkillPage() {
     return (
@@ -26,7 +27,9 @@ export default function SkillPage() {
                     <CardDescription>View and manage your skills. Click on a skill to edit.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <SkillTable />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <SkillTable />
+                    </Suspense>
                 </CardContent>
             </Card>
         </div>
