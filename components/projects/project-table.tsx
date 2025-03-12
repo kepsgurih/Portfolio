@@ -63,7 +63,9 @@ export function ProjectTable() {
               <TableRow key={project.id}>
                 <TableCell className="font-medium"><Image src={project.image} alt={project.title} width={100} height={100} className="rounded-md" /></TableCell>
                 <TableCell className="font-medium">{project.title}</TableCell>
-                <TableCell>{project.description}</TableCell>
+                <TableCell>{project?.description.length > 100
+                  ? project?.description.slice(0, 100) + "..."
+                  : project?.description}</TableCell>
                 <TableCell className="hidden md:table-cell">
                   <div className="flex flex-wrap gap-1">
                     {project.tags.slice(0, 2).map((tag) => (
