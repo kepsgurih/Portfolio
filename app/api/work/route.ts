@@ -5,7 +5,7 @@ export async function GET() {
     try {
         const allWork = await prisma.work.findMany({
             orderBy: {
-                pos: "asc"
+                pos: "desc"
             }
         })
         return NextResponse.json({ allWork }, { status: 200 })
