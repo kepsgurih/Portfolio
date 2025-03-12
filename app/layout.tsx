@@ -5,6 +5,11 @@ import type { Metadata } from "next"
 import { Suspense } from "react"
 import Loading from "./loading"
 import Providers from "./provider"
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+
+import { ourFileRouter } from "@/app/api/uploadthing/core";
+import { Toaster } from "sonner"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -22,6 +27,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className="min-h-screen w-screen justify-center align-center">
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+          <Toaster />
           <Providers>
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </Providers>

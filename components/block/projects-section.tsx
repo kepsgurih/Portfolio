@@ -1,30 +1,24 @@
 "use client"
 
 import Link from "next/link"
-import { ExternalLink, Github, ArrowRight } from "lucide-react"
+import { ExternalLink, Github, ArrowRight, Loader2 } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
-import { useEffect, useState } from "react"
 import { IProject } from "@/types"
-import { getAllProjectLimit3 } from "@/services/project"
 import HeaderDiv from "./header-div"
 
 
-export function ProjectsSection() {
-  const [projectData, setProjectData] = useState<IProject[]>([])
-
-  useEffect(() => {
-    const proj = async () => {
-      const data = await getAllProjectLimit3()
-      setProjectData(data)
-    }
-
-    proj()
-  }, [])
+export function ProjectsSection({
+  project,
+  isPending,
+}: {
+  project: IProject[]
+  isPending: boolean
+}) {
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -42,23 +36,25 @@ export function ProjectsSection() {
         <HeaderDiv title="Featured Projects" description="A selection of my recent work and personal projects." tag="My Work" />
 
         <motion.div
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
           variants={containerVariants}
+          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          animate="visible"
+
         >
-          {projectData.map((project, index) => (
+          {
+            isPending && (
+              <div>
+                <Loader2 className="animate-spin" />
+              </div>
+            )
+          }
+          {project && project.map((project, index) => (
             <motion.div
               key={index}
-              variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: { duration: 0.5 },
-                },
-              }}
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
             >
               <Card className="overflow-hidden h-full group ">
                 <div className="aspect-video overflow-hidden">

@@ -68,7 +68,6 @@ export function SkillsSection({ skill, isPending }: IPage) {
                     viewport={{ once: true }}
                   >
                     <MotionDiv whileHover={{ rotate: 15 }} transition={{ type: "spring", stiffness: 300 }}>
-                      {/* {typeof category.icon === "string" && Object.hasOwn(icons, category.icon) && ( */}
                       <DynamicIcon name={category.icon as IconName} className="" />
                     </MotionDiv>
                     <h3 className="text-xl font-bold ">{category.title}</h3>

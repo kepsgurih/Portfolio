@@ -60,6 +60,8 @@ model Config {
   technologies      Int
   socialMedia       Json?
   contactInfo       Json?
+  image             String?
+  banner            String?
   allowRegister     Boolean @default(false)
   code              Int @default(100)
 }

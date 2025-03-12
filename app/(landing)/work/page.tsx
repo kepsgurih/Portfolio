@@ -6,22 +6,15 @@ import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
-import { useEffect, useState } from "react"
-import { getAllWork } from "@/services/work"
-import { IWork } from "@/types"
 import HeaderDiv from "@/components/block/header-div"
+import { useQuery } from "@tanstack/react-query"
+import { IWork } from "@/types"
 
 export default function WorkPage() {
-  const [workExperience, setWorkExperience] = useState<IWork[]>([])
-
-  useEffect(() => {
-    const workExp = async () => {
-      const data: IWork[] | [] = await getAllWork()
-      setWorkExperience(data)
-    }
-
-    workExp()
-  }, [])
+  const { data: workExperience, isPending, isLoading } = useQuery({
+    queryFn: () => fetch('/api/work').then(res => res.json()).then(data => data.allWork),
+    queryKey: ['works'],
+  })
 
   return (
     <div className="min-h-screen px-4 sm:px-6 md:px-8">
@@ -30,8 +23,22 @@ export default function WorkPage() {
       <div className="relative z-10 mt-12 flex flex-col gap-8 mx-auto w-full max-w-3xl">
         {/* Garis vertikal timeline */}
         <div className="absolute left-2 sm:left-4 top-0 bottom-0 w-1 bg-primary/50"></div>
-
-        {workExperience.map((job, index) => (
+        {
+          isPending || isLoading ? (
+            <div className="flex justify-center items-center h-screen">
+              <div><svg className="animate-spin h-8 w-8 text-primary" viewBox="0 0 24 24"></svg></div>
+              <span className="text-2xl font-bold text-primary">Loading...</span>
+            </div>
+          ) : null
+        }
+        {
+          !workExperience || workExperience.length === 0 ? (
+            <div className="flex justify-center items-center h-screen">
+              <span className="text-2xl font-bold text-primary">No work experience found.</span>
+            </div>
+          ) : null
+        }
+        {workExperience && workExperience.map((job: IWork, index: number) => (
           <ScrollAnimation key={index} delay={index * 0.1}>
             <div className="relative flex flex-col sm:flex-row items-start sm:items-center">
               {/* Bulatan */}

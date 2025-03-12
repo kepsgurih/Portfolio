@@ -7,10 +7,35 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 // import { ParticlesBackground } from "@/components/ui/particles-background"
 import Image from "next/image"
+import { IConfig } from "@/types"
 
-export function HeroSection() {
+export function HeroSection({
+  config,
+  isPending,
+}: {
+  config: IConfig
+  isPending: boolean
+}) {
+
+  if (isPending) {
+    return (
+      <div className="flex-1 flex items-center">
+        <div className="container mx-auto p-[2rem] grid gap-8 py-12 md:grid-cols-2 md:py-24">
+          <div className="order-last md:order-first flex flex-col justify-center gap-4 md:text-left text-center">
+            <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-muted-foreground">
+              Loading
+            </h1>
+            <p className="max-w-[600px] text-muted-foreground md:text-xl">
+              Please wait...
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  
   return (
-   <>
+    <>
       <div className="flex-1 flex items-center">
         <div className="container mx-auto p-[2rem] grid gap-8 py-12 md:grid-cols-2 md:py-24">
           <motion.div
@@ -46,7 +71,7 @@ export function HeroSection() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.7 }}
             >
-              A passionate full-stack developer specializing in creating beautiful and functional web applications.
+              {config.whoami}
             </motion.p>
             <motion.div
               className="flex flex-col gap-2 min-[400px]:flex-row"
@@ -119,7 +144,7 @@ export function HeroSection() {
           <div className="h-8 w-0.5 animate-pulse bg-primary"></div>
         </div>
       </motion.div>
-   </>
+    </>
   )
 }
 

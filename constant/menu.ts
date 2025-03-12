@@ -7,14 +7,19 @@ export const MenuConstant: IMenu[] = [
         icon: "home",
     },
     {
-        title: "Skill",
-        url: "/dashboard/skill",
-        icon: "pyramid",
-    },
-    {
         title: "Work",
         url: "/dashboard/work",
         icon: "briefcase-business",
+    },
+    {
+        title: "Skill",
+        url: "/dashboard/skill",
+        icon: "code-xml",
+    },
+    {
+        title: "Project",
+        url: "/dashboard/project",
+        icon: "code",
     },
     {
         title: "Config",

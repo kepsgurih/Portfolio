@@ -7,23 +7,15 @@ import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { useEffect, useState } from "react"
-import { getAllProject } from "@/services/project"
 import { IProject } from "@/types"
 import HeaderDiv from "@/components/block/header-div"
+import { useQuery } from "@tanstack/react-query"
 
 export default function ProjectsPage() {
-    const [projectData, setProjectData] = useState<IProject[]>([])
-
-    useEffect(() => {
-        const workExp = async () => {
-            const data = await getAllProject()
-            setProjectData(data)
-        }
-
-        workExp()
-    }, [])
-
+    const { data: projectData, isPending: pendingProject } = useQuery({
+        queryKey: ['projects'],
+        queryFn: () => fetch('/api/project').then(res => res.json()).then(data => data.allProjects)
+    })
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -36,7 +28,7 @@ export default function ProjectsPage() {
     }
 
     return (
-        <div className="container mx-auto">
+        <div className="min-h-screen px-4 sm:px-6 md:px-8">
             <HeaderDiv title="All Projects" description=" A comprehensive showcase of my work across various technologies and domains." tag="Projects" />
             <motion.div
                 className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
@@ -44,7 +36,10 @@ export default function ProjectsPage() {
                 initial="hidden"
                 animate="visible"
             >
-                {projectData.map((project, index) => (
+                {
+                    pendingProject && <h1>Loading...</h1>
+                }
+                {projectData && projectData.map((project: IProject, index: number) => (
                     <motion.div
                         key={index}
                         variants={{

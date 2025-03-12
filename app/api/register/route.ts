@@ -13,14 +13,25 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { email, password } = userSchema.parse(body);
 
-        // Cek apakah user sudah ada
-        const existingUser = await prisma.user.findUnique({ where: { email } });
-        if (existingUser) return NextResponse.json({ error: "Email sudah digunakan" }, { status: 400 });
+        const config = await prisma.config.findFirst();
 
-        // Hash password
+        if (config?.allowRegister === false) {
+            return NextResponse.json(
+                { error: "Registrasi ditutup oleh administrator" },
+                { status: 403 }
+            );
+        }
+
+        const existingUser = await prisma.user.findUnique({ where: { email } });
+        if (existingUser) {
+            return NextResponse.json(
+                { error: "Email sudah digunakan" },
+                { status: 400 }
+            );
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Simpan user ke database
         const user = await prisma.user.create({
             data: { email, password: hashedPassword },
         });
@@ -29,8 +40,7 @@ export async function POST(req: NextRequest) {
     } catch (error) {
         if (error instanceof z.ZodError) {
             return NextResponse.json({ error: error.issues }, { status: 400 });
-        }
-        else if (error instanceof Error) {
+        } else if (error instanceof Error) {
             return NextResponse.json({ error: error.message }, { status: 400 });
         } else {
             return NextResponse.json({ error: "Terjadi kesalahan" }, { status: 500 });

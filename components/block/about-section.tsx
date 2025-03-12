@@ -9,8 +9,24 @@ import Link from "next/link"
 import Image from "next/image"
 import ContainerCard from "../container"
 import HeaderDiv from "./header-div"
+import { IConfig } from "@/types"
 
-export function AboutSection() {
+export function AboutSection({
+  config,
+  isPending,
+}: {
+  config: IConfig
+  isPending: boolean
+}) {
+  if (isPending) {
+    return (
+      <ContainerCard>
+        <div className="container mx-auto p-[2rem]">
+          Loading...
+        </div>
+      </ContainerCard>
+    )
+  }
   return (
     <ContainerCard>
       <div className="container mx-auto p-[2rem]">
@@ -45,12 +61,7 @@ export function AboutSection() {
             <div className="flex flex-col justify-center gap-4">
               <h3 className="text-2xl font-bold text-gray-100">My Journey</h3>
               <p className="text-gray-400">
-                {`I'm a full-stack developer with over 8 years of experience building web applications and mobile apps. My journey began
-                when I discovered my passion for turning ideas into reality through code.`}
-              </p>
-              <p className="text-gray-400">
-                {`I specialize in React, Next.js, Python, IoT and Node.js, and I'm constantly learning new technologies to stay at the
-                forefront of web development.`}
+                {config.journey}
               </p>
               <motion.div
                 className="grid grid-cols-2 gap-4 mt-4"
@@ -68,10 +79,10 @@ export function AboutSection() {
                 viewport={{ once: true }}
               >
                 {[
-                  { value: "8+", label: "Years Experience" },
-                  { value: "10+", label: "Projects Completed" },
-                  { value: "10+", label: "Happy Clients" },
-                  { value: "10+", label: "Technologies" },
+                  { value: config.yearsExperience, label: "Years Experience" },
+                  { value: config.projectCompleted, label: "Projects Completed" },
+                  { value: config.happyClient, label: "Happy Clients" },
+                  { value: config.technologies, label: "Technologies" },
                 ].map((item, index) => (
                   <motion.div
                     key={index}
