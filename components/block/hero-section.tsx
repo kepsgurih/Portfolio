@@ -116,13 +116,17 @@ export function HeroSection({
                   repeatType: "reverse",
                 }}
               >
-                <Image
-                  alt="Profile"
-                  className="aspect-square h-full w-full object-cover"
-                  width={400}
-                  height={400}
-                  src="/myface.png"
-                />
+                {
+                  config?.image && (
+                    <Image
+                      alt="Profile"
+                      className="aspect-square h-full w-full object-cover"
+                      width={400}
+                      height={400}
+                      src={config?.image}
+                    />
+                  )
+                }
               </motion.div>
             </motion.div>
           </motion.div>

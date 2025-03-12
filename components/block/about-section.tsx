@@ -41,13 +41,17 @@ export function AboutSection({
           >
             <div className="flex items-center justify-center">
               <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
-                <Image
-                  alt="About Me"
-                  className="aspect-square rounded-lg object-cover shadow-lg"
-                  height="400"
-                  src="/123.jpg"
-                  width="400"
-                />
+                {
+                  config?.banner && (
+                    <Image
+                      alt="Profile"
+                      className="aspect-square h-full w-full object-cover"
+                      width={400}
+                      height={400}
+                      src={config?.banner}
+                    />
+                  )
+                }
               </motion.div>
             </div>
           </ScrollAnimation>
