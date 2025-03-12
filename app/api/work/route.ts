@@ -31,14 +31,8 @@ export async function POST(request: NextRequest) {
 
         const postNew = await prisma.work.create({
             data: {
-                title: body.title,
-                period: body.period,
-                company: body.company,
-                location: body.location,
-                description: body.description,
-                tags: body.tags ?? [],
-                achievement: body.achievement ?? [],
-                pos,
+                ...body,
+                pos
             }
         })
 

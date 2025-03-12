@@ -13,9 +13,7 @@ export async function PUT(request: NextRequest, segment: { params: Params }) {
                 id
             },
             data: {
-                title: body.title,
-                icon: body.icon,
-                tags: body.tags
+                ...body
             }
         })
         return NextResponse.json({ message: "Skill Updated", postNewSkill }, { status: 201 })

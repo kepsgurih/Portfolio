@@ -13,12 +13,7 @@ export async function PUT(request: NextRequest, segment: { params: Params }) {
                 id
             },
             data: {
-                title: body.title,
-                description: body.description,
-                tags: body.tags,
-                image: body.image,
-                githubLink: body.githubLink,
-                demoLink: body.demoLink,
+                ...body
             }
         })
         return NextResponse.json({ message: "project Updated", postNewproject }, { status: 201 })
