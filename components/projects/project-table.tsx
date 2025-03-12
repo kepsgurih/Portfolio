@@ -42,19 +42,19 @@ export function ProjectTable() {
         <TableBody>
           {error ? (
             <TableRow>
-              <TableCell colSpan={4} className="h-24 text-center">
+              <TableCell colSpan={5} className="h-24 text-center">
                 {error.message}
               </TableCell>
             </TableRow>
           ) : isPending ? (
             <TableRow>
-              <TableCell colSpan={4} className="h-24 text-center">
+              <TableCell colSpan={5} className="h-24 text-center">
                 Loading...
               </TableCell>
             </TableRow>
           ) : !projectData?.allProjects || projectData.allProjects.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={4} className="h-24 text-center">
+              <TableCell colSpan={5} className="h-24 text-center">
                 No projects found.
               </TableCell>
             </TableRow>
