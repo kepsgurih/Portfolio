@@ -13,8 +13,8 @@ export interface IWork {
     pos: number
 }
 
-export interface IConfig {
-    id: string
+export interface IConfig1 {
+    id?: string
     description: string
     whoami: string
     journey: string
@@ -35,6 +35,30 @@ export interface IConfig {
     code: number
     image: string | null
     banner: string | null
+}
+
+export interface IConfig {
+    id?: string
+    description: string
+    whoami: string
+    journey: string
+    yearsExperience: number
+    projectCompleted: number
+    happyClient: number
+    technologies: number
+    socialMedia: Array<{
+        url: string
+        icon: string
+    }>
+    contactInfo: Array<{
+        label: string
+        value: string
+        icon: string
+    }>
+    allowRegister: boolean
+    code: number
+    image?: string
+    banner?: string
 }
 
 

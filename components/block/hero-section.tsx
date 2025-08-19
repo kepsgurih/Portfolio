@@ -7,12 +7,12 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 // import { ParticlesBackground } from "@/components/ui/particles-background"
 import Image from "next/image"
-import { IConfig } from "@/types"
+import { IConfig1 } from "@/types"
 
 export function HeroSection({
   config,
 }: {
-  config: IConfig
+  config: IConfig1
 }) {
   
   return (

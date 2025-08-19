@@ -9,10 +9,10 @@ import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import Link from "next/link"
 import { useState } from "react"
 import HeaderDiv from "./header-div"
-import { IConfig } from "@/types"
+import { IConfig1 } from "@/types"
 import { DynamicIcon, IconName } from "lucide-react/dynamic"
 
-export function ContactSection({ config }: { config: IConfig }) {
+export function ContactSection({ config }: { config: IConfig1 }) {
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
   const formVariants = {
