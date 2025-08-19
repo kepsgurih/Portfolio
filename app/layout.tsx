@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import type { Metadata } from "next"
 import { Suspense } from "react"
 import Loading from "./loading"
+import Providers from "./provider"
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 
@@ -28,7 +29,9 @@ export default function RootLayout({
         <div className="min-h-screen w-screen justify-center align-center">
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <Toaster />
+          <Providers>
             <Suspense fallback={<Loading />}>{children}</Suspense>
+          </Providers>
         </div>
       </body>
     </html>
