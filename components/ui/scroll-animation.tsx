@@ -1,16 +1,12 @@
 "use client"
 
 import type React from "react"
-
 import { useEffect, useRef, useState } from "react"
-import { motion, useAnimation, type Variant } from "framer-motion"
+import { easeOut, motion, useAnimation, type Variants } from "framer-motion"
 
 interface ScrollAnimationProps {
   children: React.ReactNode
-  variants?: {
-    hidden: Variant
-    visible: Variant
-  }
+  variants?: Variants
   className?: string
   delay?: number
   duration?: number
@@ -31,7 +27,7 @@ export function ScrollAnimation({
   const ref = useRef<HTMLDivElement>(null)
   const [, setIsInView] = useState(false)
 
-  const defaultVariants = {
+  const defaultVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
@@ -39,7 +35,7 @@ export function ScrollAnimation({
       transition: {
         duration,
         delay,
-        ease: "easeOut",
+        ease: easeOut,
       },
     },
   }
@@ -69,10 +65,7 @@ export function ScrollAnimation({
     }
 
     return () => {
-      if (ref.current) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        observer.unobserve(ref.current)
-      }
+      if (ref.current) observer.unobserve(ref.current)
     }
   }, [controls, once, threshold])
 
@@ -88,4 +81,3 @@ export function ScrollAnimation({
     </motion.div>
   )
 }
-
