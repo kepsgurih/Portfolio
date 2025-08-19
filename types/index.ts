@@ -14,7 +14,7 @@ export interface IWork {
 }
 
 export interface IConfig {
-    id?: string
+    id: string
     description: string
     whoami: string
     journey: string
@@ -33,8 +33,8 @@ export interface IConfig {
     }>
     allowRegister: boolean
     code: number
-    image?: string
-    banner?: string
+    image: string | null
+    banner: string | null
 }
 
 
@@ -71,7 +71,6 @@ export interface IProjectInput {
 
 export interface ISkill {
     id: string;
-    created_at: Date;
     title: string;
     icon: string;
     tags: string[];

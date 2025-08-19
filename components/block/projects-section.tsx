@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ExternalLink, Github, ArrowRight, Loader2 } from "lucide-react"
+import { ExternalLink, Github, ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { Badge } from "@/components/ui/badge"
@@ -14,10 +14,8 @@ import HeaderDiv from "./header-div"
 
 export function ProjectsSection({
   project,
-  isPending,
 }: {
   project: IProject[]
-  isPending: boolean
 }) {
 
   const containerVariants = {
@@ -40,15 +38,7 @@ export function ProjectsSection({
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
           initial="hidden"
           animate="visible"
-
         >
-          {
-            isPending && (
-              <div>
-                <Loader2 className="animate-spin" />
-              </div>
-            )
-          }
           {project && project.map((project, index) => (
             <motion.div
               key={index}

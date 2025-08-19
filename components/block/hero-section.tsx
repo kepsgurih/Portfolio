@@ -11,28 +11,9 @@ import { IConfig } from "@/types"
 
 export function HeroSection({
   config,
-  isPending,
 }: {
   config: IConfig
-  isPending: boolean
 }) {
-
-  if (isPending) {
-    return (
-      <div className="flex-1 flex items-center">
-        <div className="container mx-auto p-[2rem] grid gap-8 py-12 md:grid-cols-2 md:py-24">
-          <div className="order-last md:order-first flex flex-col justify-center gap-4 md:text-left text-center">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-muted-foreground">
-              Loading
-            </h1>
-            <p className="max-w-[600px] text-muted-foreground md:text-xl">
-              Please wait...
-            </p>
-          </div>
-        </div>
-      </div>
-    )
-  }
   
   return (
     <>

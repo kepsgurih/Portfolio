@@ -13,20 +13,9 @@ import { IConfig } from "@/types"
 
 export function AboutSection({
   config,
-  isPending,
 }: {
   config: IConfig
-  isPending: boolean
 }) {
-  if (isPending) {
-    return (
-      <ContainerCard>
-        <div className="container mx-auto p-[2rem]">
-          Loading...
-        </div>
-      </ContainerCard>
-    )
-  }
   return (
     <ContainerCard>
       <div className="container mx-auto p-[2rem]">

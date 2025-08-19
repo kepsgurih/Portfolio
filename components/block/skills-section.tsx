@@ -3,20 +3,17 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { DynamicIcon, IconName } from "lucide-react/dynamic";
-// import { motion } from "framer-motion"
 import { ISkill } from "@/types";
 import ContainerCard from "../container";
 import HeaderDiv from "./header-div";
-import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 const MotionDiv = dynamic(() => import("framer-motion").then((mod) => mod.motion.div), { ssr: false });
 
 interface IPage {
   skill: ISkill[],
-  isPending?: boolean
 }
 
-export function SkillsSection({ skill, isPending }: IPage) {
+export function SkillsSection({ skill }: IPage) {
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -48,13 +45,6 @@ export function SkillsSection({ skill, isPending }: IPage) {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {
-            isPending && (
-              <div>
-                <Loader2 className="animate-spin" />
-              </div>
-            )
-          }
 
           {skill && skill.map((category, index) => (
             <MotionDiv key={index} variants={itemVariants}>
