@@ -16,7 +16,27 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**"
       },
+      {
+         protocol: "https",
+        hostname: 'bangtek.org',
+        port: "",
+        pathname: "/**"
+      },
+       {
+         protocol: "https",
+        hostname: 'theravickya.com',
+        port: "",
+        pathname: "/**"
+      },
+      {
+        protocol: 'https',
+        hostname: 'vvww7urwngdjce9l.public.blob.vercel-storage.com',
+        pathname: "/**"
+      }
     ]
+  },
+  experimental: {
+    useCache: true,
   }
 };
 

@@ -10,9 +10,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { IProject } from "@/types"
+import { useState } from "react"
+import { deleteProject } from "@/services/project"
 
 
 interface DeleteProjectDialogProps {
@@ -22,34 +23,14 @@ interface DeleteProjectDialogProps {
 }
 
 export function DeleteProjectDialog({ project, open, onOpenChange }: DeleteProjectDialogProps) {
-  const queryClient = useQueryClient()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const { mutate: deleteProject, isPending: isLoading } = useMutation({
-    mutationFn: async () => {
-      try {
-        // Hapus project dari database
-        const res = await fetch(`/api/project/${project.id}`, {
-          method: "DELETE",
-        })
-
-        if (!res.ok) throw new Error("Failed to delete project")
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message)
-        } else {
-          toast.error("Failed to delete project")
-        }
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["projects"] })
-      toast.success("Project deleted successfully")
-      onOpenChange(false)
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    },
-  })
+  const deleteProjects = async () => {
+    setIsLoading(true)
+    const res = await deleteProject(project.id)
+    setIsLoading(false)
+    toast.message(res.message)
+  }
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -63,7 +44,7 @@ export function DeleteProjectDialog({ project, open, onOpenChange }: DeleteProje
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            onClick={() => deleteProject()}
+            onClick={() => deleteProjects()}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             disabled={isLoading}
           >

@@ -1,15 +1,16 @@
 "use client"
 
 import Link from "next/link"
-import { ExternalLink, Github, ArrowRight } from "lucide-react"
+import { ArrowRight, ExternalLink, Github } from "lucide-react"
 import { motion } from "framer-motion"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { IProject } from "@/types"
 import HeaderDiv from "./header-div"
+import './card-style.css'
+import { CardContent, CardFooter } from "../ui/card"
+import { Badge } from "../ui/badge"
 
 
 export function ProjectsSection({
@@ -46,7 +47,7 @@ export function ProjectsSection({
               initial="hidden"
               whileInView="visible"
             >
-              <Card className="overflow-hidden h-full group ">
+              <div className="overcard flex flex-col">
                 <div className="aspect-video overflow-hidden">
                   <motion.img
                     src={project.image || "/placeholder.svg"}
@@ -56,10 +57,10 @@ export function ProjectsSection({
                     transition={{ duration: 0.5 }}
                   />
                 </div>
-                <CardHeader>
-                  <CardTitle className="">{project.title}</CardTitle>
-                  <CardDescription className="">{project.description}</CardDescription>
-                </CardHeader>
+                <div>{project.title}</div>
+                <div className="font-description">
+                  {project.description}
+                </div>
                 <CardContent>
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, tagIndex) => (
@@ -74,21 +75,21 @@ export function ProjectsSection({
                     ))}
                   </div>
                 </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button variant="outline" size="sm" asChild className="group">
-                    <Link href={project.githubLink}>
+                <CardFooter className="flex justify-betwee gap-4 my-10">
+                  {project.githubLink && project.githubLink !== '#secret' && (<Button variant="outline" size="sm" asChild className="group">
+                    <Link href={project.githubLink} target="_blank">
                       <Github className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
                       Code
                     </Link>
-                  </Button>
+                  </Button>)}
                   <Button size="sm" asChild className="group">
-                    <Link href={project.demoLink}>
+                    <Link href={project.demoLink} target="_blank">
                       <ExternalLink className="mr-2 h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                       Demo
                     </Link>
                   </Button>
                 </CardFooter>
-              </Card>
+              </div>
             </motion.div>
           ))}
         </motion.div>

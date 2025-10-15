@@ -9,16 +9,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cookiesCreate } from "@/lib/cookies";
+import loginFunction from "@/services/auth";
+import { toast } from "sonner";
 
 
 interface LoginData {
     email: string;
     password: string;
-}
-
-interface LoginResponse {
-    token: string;
-    error?: string;
 }
 
 const loginSchema = z.object({
@@ -39,30 +36,18 @@ export default function LoginPage() {
         setLoading(true);
         setError("");
 
-        const res = await fetch("/api/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
+        const formData = new FormData();
+        formData.append("email", data.email);
+        formData.append("password", data.password);
+        const login = await loginFunction(formData);
 
-        if (res.ok) {
-            const responseData: LoginResponse = await res.json();
-            console.log("API Response:", responseData);
-
-            if (!responseData.token) {
-                alert("Login gagal, token tidak ditemukan!");
-                setLoading(false);
-                return;
-            }
-
-            await cookiesCreate("token", responseData.token);
+        if (login.success && login.token) {
+            await cookiesCreate("token", login.token);
             router.replace("/dashboard");
         } else {
-            const { error }: LoginResponse = await res.json();
-            setError(error || "Terjadi kesalahan saat login.");
+            toast.error(login.error || "Terjadi kesalahan saat login.");
             setLoading(false);
         }
-
     };
 
 

@@ -12,6 +12,7 @@ import { TagInput } from "../ui/tag-input"
 import { toast } from "sonner"
 import { IWork } from "@/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { swapWorkPosition, updateWork } from "@/services/work"
 
 
 
@@ -37,37 +38,6 @@ export function EditWorkSheet({
   const [pos, setPos] = useState(work.pos)
   const [achievements, setAchievements] = useState<string[]>(work.achievement)
 
-
-  const mutation = useMutation({
-    mutationFn: (data: IWork) => {
-      return fetch("/api/work/" + work.id, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-    },
-    onMutate() {
-      setLoading(true)
-    },
-    onError(error) {
-      if (error instanceof Error) {
-        toast.error(error.message)
-      }
-    },
-    onSuccess() {
-      toast("Work experience updated", {
-        description: `${company} has been updated.`,
-      })
-      queryClient.invalidateQueries({ queryKey: ['works'] })
-    },
-    onSettled() {
-      setLoading(false)
-      setOpen(false)
-    },
-  })
-
   useEffect(() => {
     setTitle(work.title)
     setPeriod(work.period)
@@ -79,33 +49,38 @@ export function EditWorkSheet({
     setPos(work.pos)
   }, [work])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    mutation.mutate({ title, period, company, location, description, tags, achievement: achievements, pos })
+    const formData = new FormData()
+    formData.append("company", company)
+    formData.append("title", title)
+    formData.append("period", period)
+    formData.append("location", location)
+    formData.append("description", description)
+    formData.append("tags", tags.join(","))
+    formData.append("achievements", achievements.join(","))
+    setLoading(true)
+    const updates = await updateWork(work.id as string, formData)
+    if (updates.success) {
+      setOpen(false)
+      setLoading(false)
+      window.location.reload()
+    } else {
+      toast.error(updates.message)
+      setLoading(false)
+    }
   }
 
   const swapPosition = async (direction: "up" | "down") => {
-    try {
-      const newPos = direction === "up" ? pos - 1 : pos + 1
-
-      const response = await fetch(`/api/work/swap`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: work.id, pos, newPos }),
-      })
-
-      if (!response.ok) throw new Error("Gagal mengubah posisi")
-
-      toast.success(`Posisi berhasil diubah`)
-      queryClient.invalidateQueries({ queryKey: ['works'] })
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message)
-      } else {
-        toast.error("Gagal mengubah posisi")
-      }
+    const newPos = direction === "up" ? pos - 1 : pos + 1
+    const swap = await swapWorkPosition(work.id as string, newPos)
+    if (swap.success) {
+      setPos(newPos)
+      queryClient.invalidateQueries({ queryKey: ["work"] })
+    } else {
+      toast.error(swap.message)
     }
+
   }
 
 

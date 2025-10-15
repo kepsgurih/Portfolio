@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
@@ -10,11 +9,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { useState } from "react"
 import { TagInput } from "../ui/tag-input"
 import { toast } from "sonner"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { IWorkInput as IWork } from "@/types"
+import { addWork } from "@/services/work"
 
 export function AddWorkSheet({ children }: { children: React.ReactNode }) {
-  const queryClient = useQueryClient()
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const [company, setCompany] = useState("")
@@ -25,29 +22,20 @@ export function AddWorkSheet({ children }: { children: React.ReactNode }) {
   const [tags, setTags] = useState<string[]>([])
   const [achievements, setAchievements] = useState<string[]>([])
 
-  const mutation = useMutation({
-    mutationFn: (data: IWork) => {
-      return fetch("/api/work", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-    },
-    onMutate() {
-      setLoading(true)
-    },
-    onError(error) {
-      if (error instanceof Error) {
-        toast.error(error.message)
-      }
-    },
-    onSuccess: () => {
-      toast.success("Work added successfully")
-      queryClient.invalidateQueries({ queryKey: ['works'] })
-    },
-    onSettled: () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    const formData = new FormData()
+    formData.append("company", company)
+    formData.append("title", title)
+    formData.append("period", period)
+    formData.append("location", location)
+    formData.append("description", description)
+    formData.append("tags", tags.join(","))
+    formData.append("achievements", achievements.join(","))
+
+    const addWorks = await addWork(formData)
+    if (addWorks.success) {
       setCompany("")
       setLocation("")
       setDescription("")
@@ -55,22 +43,10 @@ export function AddWorkSheet({ children }: { children: React.ReactNode }) {
       setAchievements([])
       setOpen(false)
       setLoading(false)
+    } else {
+      toast.error(addWorks.message)
+      setLoading(false)
     }
-  })
-
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const data = {
-      company,
-      title,
-      period,
-      location,
-      description,
-      tags,
-      achievement: achievements
-    }
-    mutation.mutate(data)
   }
 
   return (

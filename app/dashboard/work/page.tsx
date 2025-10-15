@@ -3,8 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Plus } from "lucide-react"
 import { WorkTable } from "@/components/work/work-table"
 import { AddWorkSheet } from "@/components/work/add-work-sheet"
+import { getAllWork } from "@/services/work"
 
-export default function WorkPage() {
+export default async function WorkPage() {
+    const workData = await getAllWork()
     return (
         <div className="space-y-6 p-4 md:p-10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -26,7 +28,7 @@ export default function WorkPage() {
                     <CardDescription>View and manage your work experience entries. Click on an entry to edit.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <WorkTable />
+                    <WorkTable workData={workData} />
                 </CardContent>
             </Card>
         </div>

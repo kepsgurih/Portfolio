@@ -5,7 +5,6 @@ import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
-// import { ParticlesBackground } from "@/components/ui/particles-background"
 import Image from "next/image"
 import { IConfig1 } from "@/types"
 
@@ -61,7 +60,7 @@ export function HeroSection({
               transition={{ duration: 0.5, delay: 0.9 }}
             >
               <Button asChild size="lg" className="group">
-                <Link href="#projects">
+                <Link href="/work" className="flex items-center">
                   View My Work
                   <motion.span initial={{ x: 0 }} whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                     <ArrowRight className="ml-2 h-4 w-4" />

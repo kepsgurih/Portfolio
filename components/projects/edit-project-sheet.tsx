@@ -1,155 +1,195 @@
 "use client"
 
-import type React from "react"
+import React, { useState, useEffect } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import z from "zod"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useState, useEffect } from "react"
 import { TagInput } from "@/components/ui/tag-input"
-import { toast } from "sonner"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { IProject as IProjectInput } from "@/types"
-import { UploadButton } from "@/utils/uploadthing"
+import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/shadcn-io/dropzone"
 import Image from "next/image"
+import { toast } from "sonner"
+import { createNewProject, updateProject } from "@/services/project"
+import { IProject } from "@/types"
 
-export function EditProjectSheet({
-  children,
-  project,
-}: {
-  children: React.ReactNode
-  project: IProjectInput
-}) {
-  const queryClient = useQueryClient()
+// Zod schema: title string, description string, tags as a single string,
+// image is a File, githubLink string, demoLink string
+const formSchema = z.object({
+  title: z.string().min(2, { message: "Title must be at least 2 characters" }),
+  description: z.string().min(1, { message: "Description is required" }),
+  tags: z.string().min(1, { message: "Please provide at least one tag" }),
+  image: z.instanceof(File).optional(),
+  githubLink: z.string().min(1, { message: "GitHub link is required" }),
+  demoLink: z.string().min(1, { message: "Demo link is required" }),
+})
+
+type FormValues = z.infer<typeof formSchema>
+
+export function EditProjectSheet({ children, project }: { children: React.ReactNode, project: IProject }) {
   const [open, setOpen] = useState(false)
-  const [title, setTitle] = useState(project.title)
-  const [description, setDescription] = useState(project.description)
-  const [tags, setTags] = useState<string[]>(project.tags)
-  const [image, setImage] = useState(project.image)
-  const [githubLink, setGithubLink] = useState(project.githubLink)
-  const [demoLink, setDemoLink] = useState(project.demoLink)
+  const [loading, setLoading] = useState(false)
+  const [tagsArray, setTagsArray] = useState<string[]>([]) // UI tag input expects array
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
-  const { mutate: updateProject, isPending } = useMutation({
-    mutationFn: async ({ id, title, description, tags, image, githubLink, demoLink }: IProjectInput) => {
-      if (!title || !description || tags.length === 0 || !githubLink || !demoLink) {
-        throw new Error("All fields are required")
-      }
-
-      return fetch("/api/project/" + id, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, description, tags, image, githubLink, demoLink }),
-      })
-    },
-    onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: ['projects'] })
-      toast.success("Project updated successfully")
-      setOpen(false)
-    },
-    onError: (error) => {
-      toast.error(error.message)
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      tags: "",
+      image: undefined as unknown as File,
+      githubLink: "",
+      demoLink: "",
     },
   })
 
+  // Keep watch on image to update preview
+  const watchedImage = watch("image")
+
   useEffect(() => {
-    setTitle(project.title)
-    setDescription(project.description)
-    setTags(project.tags)
-    setImage(project.image)
-    setGithubLink(project.githubLink)
-    setDemoLink(project.demoLink)
-  }, [project])
+    if (watchedImage instanceof File) {
+      const url = URL.createObjectURL(watchedImage)
+      setPreviewUrl(url)
+      return () => URL.revokeObjectURL(url)
+    } else {
+      setPreviewUrl(null)
+    }
+  }, [watchedImage])
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  // Dropzone handler: picks first file and set to form
+  const handleDrop = (files: File[]) => {
+    if (!files || files.length === 0) return
+    const file = files[0]
+    setValue("image", file, { shouldValidate: true, shouldDirty: true })
+  }
 
-    updateProject({
-      id: project.id,
-      title,
-      description,
-      tags,
-      image,
-      githubLink,
-      demoLink,
-    })
+  // Convert tags array (UI) into comma separated string for zod schema
+  useEffect(() => {
+    setValue("tags", tagsArray.join(","))
+  }, [tagsArray, setValue])
+
+  useEffect(() => {
+    setValue("title", project.title)
+    setValue("description", project.description)
+    setValue("tags", project.tags.join(","))
+    setValue("githubLink", project.githubLink)
+    setValue("demoLink", project.demoLink)
+    setTagsArray(project.tags)
+    setPreviewUrl(project.image)
+  }, [project, setValue])
+
+  const onSubmit = async (data: FormValues) => {
+    setLoading(true)
+    try {
+      // Example: build FormData for upload or prepare payload
+      const payload = new FormData()
+      payload.append("title", data.title)
+      payload.append("description", data.description)
+      payload.append("tags", data.tags)
+      if (data.image) payload.append("image", data.image)
+      payload.append("githubLink", data.githubLink)
+      payload.append("demoLink", data.demoLink)
+
+      // Replace the following with your upload/api call
+      await updateProject(project?.id, payload)
+
+      toast?.success?.("Project updated")
+      reset()
+      setTagsArray([])
+      setOpen(false)
+    } catch (err) {
+      console.error(err)
+      toast?.error?.("Failed to update project")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="sm:max-w-md overflow-y-auto">
+      <SheetContent className="sm:max-w-md overflow-y-auto mx-4">
         <SheetHeader>
-          <SheetTitle>Edit Project</SheetTitle>
-          <SheetDescription>Update the details of this project.</SheetDescription>
+          <SheetTitle>Add Project</SheetTitle>
+          <SheetDescription>Add a new project to your portfolio.</SheetDescription>
         </SheetHeader>
-        <form onSubmit={handleSubmit} className="space-y-6 py-6 p-4">
-          <div className="space-y-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-title" className="text-right">
-                Title
-              </Label>
-              <Input
-                id="edit-title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="col-span-3"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-description" className="text-right">
-                Description
-              </Label>
-              <Input
-                id="edit-description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="col-span-3"
-                required
-              />
-            </div>
-            {image && (
-              <div className="col-span-3">
-                <Image src={image} alt="Project preview" className="rounded-lg mx-auto" width={100} height={100} />
-              </div>
-            )}
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-image" className="text-right">
-                Image
-              </Label>
-              <div className="col-span-3">
-                <UploadButton
-                  endpoint="imageUploader"
-                  onClientUploadComplete={(res) => {
-                    if (res && res[0]?.ufsUrl) {
-                      setImage(res[0].ufsUrl)
-                      toast.success("Image uploaded successfully")
-                    }
-                  }}
-                  onUploadError={(error) => {
-                    toast.error(`Upload failed: ${error.message}`)
-                  }}
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid gap-4 mx-2">
+            <Label>Title</Label>
+            <Input {...register("title")} aria-invalid={!!errors.title} />
+            {errors.title && <p className="text-sm text-red-600">{errors.title.message}</p>}
+
+            <Label>Description</Label>
+            <Input {...register("description")} aria-invalid={!!errors.description} />
+            {errors.description && <p className="text-sm text-red-600">{errors.description.message}</p>}
+
+            <Label>Tags</Label>
+            <TagInput
+              placeholder="Add tags (press Enter)"
+              tags={tagsArray}
+              setTags={setTagsArray}
+            />
+            {errors.tags && <p className="text-sm text-red-600">{errors.tags.message}</p>}
+
+            <Label>Image</Label>
+            <Dropzone
+              accept={{ "image/*": [] }}
+              maxFiles={1}
+              maxSize={1024 * 1024 * 10}
+              minSize={1024}
+              onDrop={handleDrop}
+              onError={console.error}
+            >
+              <DropzoneEmptyState />
+              <DropzoneContent />
+            </Dropzone>
+            {previewUrl && (
+              <div className="mt-2">
+                <Image
+                  src={previewUrl}
+                  alt="Uploaded preview"
+                  className="w-full h-auto rounded-lg"
+                  width={150}
+                  height={150}
                 />
               </div>
+            )}
+            {errors.image && <p className="text-sm text-red-600">{errors.image.message}</p>}
+
+            <Label>GitHub Link</Label>
+            <Input {...register("githubLink")} aria-invalid={!!errors.githubLink} />
+            {errors.githubLink && <p className="text-sm text-red-600">{errors.githubLink.message}</p>}
+
+            <Label>Demo Link</Label>
+            <Input {...register("demoLink")} aria-invalid={!!errors.demoLink} />
+            {errors.demoLink && <p className="text-sm text-red-600">{errors.demoLink.message}</p>}
+
+            <div className="flex justify-end space-x-2">
+              <Button disabled={loading} type="button" variant="outline" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button disabled={loading} type="submit">
+                {loading ? "Adding..." : "Update"}
+              </Button>
             </div>
-            <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="edit-tags" className="text-right pt-2">
-                Tags
-              </Label>
-              <div className="col-span-3">
-                <TagInput placeholder="Add tags (press Enter)" tags={tags} setTags={setTags} className="w-full" />
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-end space-x-2">
-            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isPending}>
-              {isPending ? "Saving..." : "Save Changes"}
-            </Button>
           </div>
         </form>
       </SheetContent>

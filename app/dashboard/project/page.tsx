@@ -2,10 +2,12 @@ import { AddProjectSheet } from "@/components/projects/add-project-sheet"
 import { ProjectTable } from "@/components/projects/project-table"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { getAllProject } from "@/services/project"
 import { Plus } from "lucide-react"
 import { Suspense } from "react"
 
-export default function Page() {
+export default async function Page() {
+    const project = await getAllProject()
     return (
         <div className="space-y-6 p-4 md:p-10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -28,7 +30,7 @@ export default function Page() {
                 </CardHeader>
                 <CardContent>
                     <Suspense fallback={<div>Loading...</div>}>
-                        <ProjectTable />
+                        <ProjectTable project={project} />
                     </Suspense>
                 </CardContent>
             </Card>
