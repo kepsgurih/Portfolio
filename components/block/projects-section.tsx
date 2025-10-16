@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { IProject } from "@/types"
 import HeaderDiv from "./header-div"
-import { Card, CardContent, CardFooter } from "../ui/card"
+import { Card, CardContent, CardFooter, CardTitle } from "../ui/card"
 import { Badge } from "../ui/badge"
 
 
@@ -48,6 +48,7 @@ export function ProjectsSection({
             >
               <Card className="flex flex-col">
                 <CardContent>
+                
                 <div className="aspect-video overflow-hidden">
                   <motion.img
                     src={project.image || "/placeholder.svg"}
@@ -57,7 +58,7 @@ export function ProjectsSection({
                     transition={{ duration: 0.5 }}
                   />
                 </div>
-                <div>{project.title}</div>
+                <CardTitle className="my-4">{project.title}</CardTitle>
                 <div className="font-description">
                   {project.description}
                 </div>
