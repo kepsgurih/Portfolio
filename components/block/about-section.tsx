@@ -9,12 +9,12 @@ import Link from "next/link"
 import Image from "next/image"
 import ContainerCard from "../container"
 import HeaderDiv from "./header-div"
-import { IConfig1 } from "@/types"
+import { Config } from "@prisma/client"
 
 export function AboutSection({
   config,
 }: {
-  config: IConfig1
+  config: Config
 }) {
   return (
     <ContainerCard>

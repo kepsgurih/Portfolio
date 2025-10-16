@@ -9,10 +9,10 @@ import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import Link from "next/link"
 import { useState } from "react"
 import HeaderDiv from "./header-div"
-import { IConfig1 } from "@/types"
 import { DynamicIcon, IconName } from "lucide-react/dynamic"
+import { Config } from "@prisma/client"
 
-export function ContactSection({ config }: { config: IConfig1 }) {
+export function ContactSection({ config }: { config: Config }) {
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
   const formVariants = {
@@ -33,6 +33,10 @@ export function ContactSection({ config }: { config: IConfig1 }) {
       transition: { duration: 0.5 },
     },
   }
+
+  const socialMedia = config?.socialMedia as { url: string; icon: string }[] ?? []
+  const contactInfo = config?.contactInfo as { label: string; icon: string; value: string }[] ?? []
+
 
   return (
     <section id="contact" className="py-16 md:py-24 relative overflow-hidden">
@@ -98,7 +102,7 @@ export function ContactSection({ config }: { config: IConfig1 }) {
                 whileInView="visible"
                 viewport={{ once: true }}
               >
-                {config?.socialMedia?.length > 0 ? config?.contactInfo.map((item, index) => (
+                {contactInfo.length > 0 ? contactInfo.map((item, index) => (
                   <div
                     key={index}
                   >
@@ -112,7 +116,7 @@ export function ContactSection({ config }: { config: IConfig1 }) {
                           }}
                           transition={{ duration: 0.3 }}
                         >
-                         <DynamicIcon name={item.icon as IconName} className="" />
+                          <DynamicIcon name={item.icon as IconName} className="" />
                         </motion.div>
                         <div>
                           <h4 className="text-lg font-semibold">{item.label}</h4>
@@ -123,7 +127,7 @@ export function ContactSection({ config }: { config: IConfig1 }) {
                       </CardContent>
                     </Card>
                   </div>
-                )): null}
+                )) : null}
               </motion.div>
 
               <div className="mt-8">
@@ -131,7 +135,7 @@ export function ContactSection({ config }: { config: IConfig1 }) {
                 <motion.div
                   className="flex gap-4"
                 >
-                  {config?.socialMedia?.length > 0 ? config.socialMedia.map((item, index) => (
+                  {socialMedia?.length > 0 ? socialMedia.map((item, index) => (
                     <div key={index}>
                       <Link href={item.url} rel="noopener noreferrer" target="_blank">
                         <Button variant="outline" size="icon" className="rounded-full">

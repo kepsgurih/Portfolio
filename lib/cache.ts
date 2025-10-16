@@ -10,13 +10,7 @@ export const getPendingConfigCache = async () => {
 
     if (!config) return null;
 
-    const parsedConfig = {
-        ...config,
-        socialMedia: config.socialMedia ? JSON.parse(config.socialMedia as string) : [],
-        contactInfo: config.contactInfo ? JSON.parse(config.contactInfo as string) : [],
-    };
-
-    return parsedConfig;
+    return config;
 }
 
 export const getSkillCache = async () => {

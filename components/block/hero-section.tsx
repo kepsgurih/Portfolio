@@ -6,12 +6,12 @@ import { motion } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import { IConfig1 } from "@/types"
+import { Config } from "@prisma/client"
 
 export function HeroSection({
   config,
 }: {
-  config: IConfig1
+  config: Config
 }) {
   
   return (
