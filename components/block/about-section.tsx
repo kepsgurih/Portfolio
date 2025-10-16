@@ -52,7 +52,7 @@ export function AboutSection({
             }}
           >
             <div className="flex flex-col justify-center gap-4">
-              <h3 className="text-2xl font-bold text-gray-100">My Journey</h3>
+              <h3 className="text-2xl font-bold">My Journey</h3>
               <p className="text-gray-400">
                 {config.journey}
               </p>

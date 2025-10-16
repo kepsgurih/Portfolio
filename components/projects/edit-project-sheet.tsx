@@ -19,7 +19,7 @@ import { TagInput } from "@/components/ui/tag-input"
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/shadcn-io/dropzone"
 import Image from "next/image"
 import { toast } from "sonner"
-import { createNewProject, updateProject } from "@/services/project"
+import { updateProject } from "@/services/project"
 import { IProject } from "@/types"
 
 // Zod schema: title string, description string, tags as a single string,

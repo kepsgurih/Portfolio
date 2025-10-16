@@ -41,14 +41,13 @@ export function ScrollAnimation({
   }
 
   useEffect(() => {
+    const element = ref.current
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsInView(true)
           controls.start("visible")
-          if (once) {
-            observer.unobserve(entry.target)
-          }
+          if (once) observer.unobserve(entry.target)
         } else if (!once) {
           setIsInView(false)
           controls.start("hidden")
@@ -57,17 +56,15 @@ export function ScrollAnimation({
       {
         threshold,
         rootMargin: "0px 0px -100px 0px",
-      },
+      }
     )
 
-    if (ref.current) {
-      observer.observe(ref.current)
-    }
-
+    if (element) observer.observe(element)
     return () => {
-      if (ref.current) observer.unobserve(ref.current)
+      if (element) observer.unobserve(element)
     }
   }, [controls, once, threshold])
+
 
   return (
     <motion.div

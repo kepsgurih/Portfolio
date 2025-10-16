@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/prisma"
 import { NextRequest, NextResponse } from "next/server"
 
-type Params = Promise<{ slug: string, id: string }>
-
-export async function PUT(request: NextRequest, segment: { params: Params }) {
-    const params = await segment.params
-    const { id } = params
+export async function PUT(
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    const { id } = await params
     try {
         const body = await request.json()
         const postNewSkill = await prisma.skill.update({
@@ -26,9 +26,11 @@ export async function PUT(request: NextRequest, segment: { params: Params }) {
     }
 }
 
-export async function DELETE(request: NextRequest, segment: { params: Params }) {
-    const params = await segment.params
-    const { id } = params
+export async function DELETE(
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    const { id } = await params
     try {
         const postNewSkill = await prisma.skill.delete({
             where: {

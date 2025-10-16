@@ -8,8 +8,7 @@ import { Button } from "@/components/ui/button"
 import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { IProject } from "@/types"
 import HeaderDiv from "./header-div"
-import './card-style.css'
-import { CardContent, CardFooter } from "../ui/card"
+import { Card, CardContent, CardFooter } from "../ui/card"
 import { Badge } from "../ui/badge"
 
 
@@ -47,7 +46,8 @@ export function ProjectsSection({
               initial="hidden"
               whileInView="visible"
             >
-              <div className="overcard flex flex-col">
+              <Card className="flex flex-col">
+                <CardContent>
                 <div className="aspect-video overflow-hidden">
                   <motion.img
                     src={project.image || "/placeholder.svg"}
@@ -61,7 +61,6 @@ export function ProjectsSection({
                 <div className="font-description">
                   {project.description}
                 </div>
-                <CardContent>
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, tagIndex) => (
                       <motion.div
@@ -89,7 +88,7 @@ export function ProjectsSection({
                     </Link>
                   </Button>
                 </CardFooter>
-              </div>
+              </Card>
             </motion.div>
           ))}
         </motion.div>

@@ -11,7 +11,6 @@ import { useState, useEffect } from "react"
 import { TagInput } from "../ui/tag-input"
 import { toast } from "sonner"
 import { IWork } from "@/types"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { swapWorkPosition, updateWork } from "@/services/work"
 
 
@@ -25,7 +24,6 @@ export function EditWorkSheet({
   work: IWork,
   totalWorks: number
 }) {
-  const queryClient = useQueryClient()
 
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -76,7 +74,7 @@ export function EditWorkSheet({
     const swap = await swapWorkPosition(work.id as string, newPos)
     if (swap.success) {
       setPos(newPos)
-      queryClient.invalidateQueries({ queryKey: ["work"] })
+      toast.success("Position swapped")
     } else {
       toast.error(swap.message)
     }

@@ -12,7 +12,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { toast } from "sonner"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { IConfig } from "@/types"
-import { UploadButton } from "@/utils/uploadthing"
 import Image from "next/image"
 import { Trash } from "lucide-react"
 
@@ -252,7 +251,7 @@ export function ConfigForm() {
                             <Image src={config?.image} alt="Uploaded preview" width={150} height={150} />
                         </div>
                     )}
-                    <UploadButton endpoint="avatarAndBanner"
+                    {/* <UploadButton endpoint="avatarAndBanner"
                         onClientUploadComplete={(res) => {
                             if (res) {
                                 setConfig((prev) => ({
@@ -264,14 +263,14 @@ export function ConfigForm() {
                         onUploadError={(error) => {
                             toast.error(`Upload failed: ${error.message}`)
                         }}
-                    />
+                    /> */}
                     <Label>Image Banner</Label>
                     {config?.banner && (
                         <div className="mt-2">
                             <Image src={config?.banner} alt="Uploaded preview" width={150} height={150} />
                         </div>
                     )}
-                    <UploadButton endpoint="avatarAndBanner"
+                    {/* <UploadButton endpoint="avatarAndBanner"
                         onClientUploadComplete={(res) => {
                             if (res) {
                                 setConfig((prev) => ({
@@ -283,7 +282,7 @@ export function ConfigForm() {
                         onUploadError={(error) => {
                             toast.error(`Upload failed: ${error.message}`)
                         }}
-                    />
+                    /> */}
                 </TabsContent>
             </Tabs>
 

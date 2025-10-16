@@ -1,4 +1,4 @@
-import { unstable_cache, unstable_cacheTag as cacheTag } from "next/cache";
+import { unstable_cacheTag as cacheTag } from "next/cache";
 import { prisma } from "./prisma";
 
 export const getPendingConfigCache = async () => {
